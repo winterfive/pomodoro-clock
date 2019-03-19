@@ -19,10 +19,13 @@ $(document).ready(function() {
   });    
     
   $("#session-increment").click(function(){
-    sessCount += 1;  
+    if(sessCount + 1 < 60) {
+      sessCount += 1;  
     $("#session-length").html(sessCount);
     console.log("session is: " + sessCount);
+    }
   });
+    
   
   // Break Buttons
   $("#break-decrement").click(function(){
@@ -35,7 +38,7 @@ $(document).ready(function() {
   
   $("#break-increment").click(function(){
     // a break shouldn't take longer then the work session
-    if(breakCount + 1 < sessCount) {
+    if(breakCount + 1 < sessCount && breakCount + 1 < 60) {
       breakCount += 1;  
       $("#break-length").html(breakCount);
       console.log("break is: " + breakCount);
