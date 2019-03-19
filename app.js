@@ -7,7 +7,19 @@ $(document).ready(function() {
   var sessCount = parseInt($("#session-length").html());
   var breakCount = parseInt($("#break-length").html());
   $(".reset").hide();
-  
+  $("#start").click(function(){
+    var counter = setInterval(timer, 1000);
+    
+    function timer(){
+      sessCount -= 1;
+      if(sessCount === 0) {
+        buzzer.play();
+        clearInterval(timer);
+      }            
+      $("#session-length").html(sessCount);
+    }
+  })
+   
   // Session Buttons
   $("#session-decrement").click(function(){
     // work session should be longer then a break
