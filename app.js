@@ -1,3 +1,7 @@
+// Pomodoro Clock
+// Lee Gainer
+// March 2019
+
 $(document).ready(function() {
   var buzzer = $("#buzzer");
   var sessCount = parseInt($("#session-length").html());
@@ -6,7 +10,8 @@ $(document).ready(function() {
   
   // Session Buttons
   $("#session-decrement").click(function(){
-    if(sessCount > 0) {
+    // work session should be longer then a break
+    if(sessCount > 0 && sessCount - 1 > breakCount) {
       sessCount -= 1;
       $("#session-length").html(sessCount);
       console.log("session is: " + sessCount);
@@ -29,9 +34,12 @@ $(document).ready(function() {
   });
   
   $("#break-increment").click(function(){
-    breakCount += 1;  
-    $("#break-length").html(breakCount);
-    console.log("break is: " + breakCount);
+    // a break shouldn't take longer then the work session
+    if(breakCount + 1 < sessCount) {
+      breakCount += 1;  
+      $("#break-length").html(breakCount);
+      console.log("break is: " + breakCount);
+    }    
   });  
 });
 
