@@ -17,8 +17,8 @@ body {
   background-size: cover;
   color: $font-color;
   display: flex;
-  justify-content: center;
-  align-items: center;
+	justify-content: center;
+	align-items: center;
   margin-top: 7%;
 }
 
@@ -54,6 +54,11 @@ p {
   @extend p;
   margin: 0.8em;
   padding: 0.4em;
+}
+
+#session-length, #break-length {
+  display: inline-block;
+  min-width: 45px;
 }
 
 
