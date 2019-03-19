@@ -1,13 +1,21 @@
 $(document).ready(function() {
   var buzzer = $("#buzzer");
-  var count = parseInt($("#session-length").html());
-  console.log("count: " + count);
+  var sessCount = parseInt($("#session-length").html());
   $(".reset").hide();
   
   $("#session-decrement").click(function(){
-    count -= 1;
-    $("#session-length").html(count);
-    console.log("session is: " + count);
+    if(sessCount > 0) {
+      sessCount -= 1;
+      $("#session-length").html(sessCount);
+      console.log("session is: " + sessCount);
+    }
+  });
+    
+    
+  $("#session-increment").click(function(){
+    sessCount += 1;  
+    $("#session-length").html(sessCount);
+    console.log("session is: " + sessCount);
   })
 });
 
