@@ -6,16 +6,22 @@ $(document).ready(function() {
   var buzzer = $("#buzzer");
   var sessCount = parseInt($("#session-length").html());
   var breakCount = parseInt($("#break-length").html());
-  $(".reset").hide();
+  $(".reset, #timer-label").hide();
   $("#start").click(function(){
     var counter = setInterval(timer, 1000);
     
     function timer(){
-      sessCount -= 1;
+      // Hide things
+      $("#start, #session-decrement, #session-increment, #break-decrement, #break-increment, #break-label, #session-label").hide();
+      $("#")
+      if(sessCount - 1 >= 0) {
+        sessCount -= 1;
+      }
+      
       if(sessCount === 0) {
+        clearInterval(counter);
         buzzer.play();
-        clearInterval(timer);
-      }            
+      }      
       $("#session-length").html(sessCount);
     }
   })
