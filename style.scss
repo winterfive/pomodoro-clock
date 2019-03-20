@@ -4,12 +4,13 @@ $bg-color: rgba(0, 150, 250, 1);
 $font-color: rgb(0, 70, 160);
 $circle-border-radius: 10%;
 $circle-color: rgb(245, 240, 240);
+$btn-width: 50px;
 
 body {
   font-family: 'Comfortaa', cursive;
   // Photo by Markus Spiske on Unsplash.com
-  background: linear-gradient(rgba(0, 123, 255, 0.2), rgba(0, 123, 255, 0.7)) fixed,
-    url(https://www.dropbox.com/s/vhxlppck3cwoozs/markus-spiske-1381441-unsplash.jpg?dl=1)
+  background: linear-gradient(rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.4)) fixed,
+    url(https://www.dropbox.com/s/mztsk4sq2npxpq2/45-degree-fabric-light.png?dl=1)
       no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -47,18 +48,25 @@ p {
 }
 
 #sessionDiv, #breakDiv, #startDiv {
-  margin: 1.5em 0 2em 0;
+  margin: 1.0em 0 1.5em 0;
 }
 
 .btn {
-  @extend p;
-  margin: 0.8em;
+  font-size: 1.2em;
+  margin: 0.2em;
   padding: 0.4em;
+  width: $btn-width;
+  border-radius: 20%;
 }
 
 #session-length, #break-length {
   display: inline-block;
-  min-width: 45px;
+  min-width: $btn-width;
+}
+
+#start {
+  width: 100px;
+  border-radius: 10%;
 }
 
 
