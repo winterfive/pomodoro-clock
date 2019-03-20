@@ -3,22 +3,22 @@
 // March 2019
 
 $(document).ready(function() {
-  var buzzer = $("#buzzer");
+  var sound = $("#sound")[0];
   var sessCount = parseInt($("#session-length").html());
   var breakCount = parseInt($("#break-length").html());
-  var countdown = parseInt($("countdown").html());
+  var countdown = parseInt($("#countdown").html());
 
   $("#start").click(function() {
-    var counter = setInterval(timer, 1000);
+    var startSession = setInterval(timer, 1000);
 
     function timer() {
-      if (sessCount - 1 >= 0) {
-        sessCount -= 1;
-      }
+      sessCount -= 1;
+      console.log(sessCount);
 
       if (sessCount === 0) {
-        clearInterval(counter);
-        buzzer.play();
+        sound.play();
+        // TODO audio not playing
+        clearInterval(startSession);        
         var startBreak = setInterval(breakTimer, 1000);
       }
       $("#countdown").html(sessCount);
