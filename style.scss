@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa');
 
-$bg-color: rgba(0, 150, 250, 1);
+$bg-color: rgba(0, 145, 245, 1);
 $font-color: rgb(0, 70, 160);
 $circle-border-radius: 10%;
 $circle-color: rgb(245, 240, 240);
 $btn-width: 50px;
+$btn-bgColor-hover: rgb(0, 50, 150);
 
 body {
   font-family: 'Comfortaa', cursive;
@@ -52,6 +53,23 @@ p {
   padding: 0.4em;
   width: $btn-width;
   border-radius: 20%;
+  transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+	-moz-transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+	-webkit-transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+}
+
+.btn:hover {
+  background-color: $btn-bgColor-hover;
+}
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn:active {
+  @extend .btn:focus;
+  transform: translatey(1px);
 }
 
 #session-length, #break-length {
