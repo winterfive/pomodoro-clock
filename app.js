@@ -10,14 +10,12 @@ $(document).ready(function() {
 
   $("#start").click(function() {
     var startSession = setInterval(timer, 1000);
-
+    
     function timer() {
       sessCount -= 1;
-      console.log(sessCount);
 
       if (sessCount === 0) {
         sound.play();
-        // TODO audio not playing
         clearInterval(startSession);        
         var startBreak = setInterval(breakTimer, 1000);
       }
@@ -25,10 +23,12 @@ $(document).ready(function() {
 
       function breakTimer() {
         $("#timer-label").html("Break Time: ");
-        countdown -= 1;
-        if (countdown === 0) {
+        breakCount -= 1;
+        
+        if (breakCount === 0) {
           clearInterval(startBreak);
         }
+        $("#countdown").html(breakCount);
       }
     }
   });
