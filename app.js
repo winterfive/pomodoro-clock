@@ -68,8 +68,10 @@ $(document).ready(function() {
   
   // Reset buttons
   $(".reset").click(function(){
-    
-    
-  })
-  
+    // After FCC test, change so each reset button affects only its target: session, break
+    sessCount = 25;
+    breakCount = 5;
+    $("#session-length").html(sessCount);
+    $("#break-length").html(breakCount);    
+  });  
 });
