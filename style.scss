@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url("https://fonts.googleapis.com/css?family=Comfortaa");
 
 $bg-color: rgba(0, 145, 245, 1);
 $font-color: rgb(0, 70, 160);
 $circle-border-radius: 10%;
 $circle-color: rgb(245, 240, 240);
+$btn-color: rgb(102, 179, 255);
 $btn-width: 50px;
 $btn-bgColor-hover: rgb(0, 50, 150);
 
 body {
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
   background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 123, 255, 0.9)) fixed,
     url(https://www.dropbox.com/s/mztsk4sq2npxpq2/45-degree-fabric-light.png?dl=1)
       no-repeat center center fixed;
@@ -18,8 +19,8 @@ body {
   background-size: cover;
   color: $font-color;
   display: flex;
-	justify-content: center;
-	align-items: center;
+  justify-content: center;
+  align-items: center;
   margin-top: 7%;
 }
 
@@ -27,9 +28,9 @@ body {
   width: 470px;
   height: 470px;
   padding-top: 2em;
-  background: $circle-color; 
+  background: $circle-color;
   -moz-border-radius: $circle-border-radius;
-  -webkit-border-radius: $circle-border-radius; 
+  -webkit-border-radius: $circle-border-radius;
   border-radius: $circle-border-radius;
 }
 
@@ -43,19 +44,24 @@ p {
   padding: 0.4em;
 }
 
-#sessionDiv, #breakDiv, #startDiv {
-  margin: 1.0em 0 1.5em 0;
+#sessionDiv,
+#breakDiv,
+#startDiv {
+  margin: 1em 0 1.5em 0;
 }
 
 .btn {
   font-size: 1.2em;
+  background-color: $btn-color;
   margin: 0.2em;
   padding: 0.4em;
   width: $btn-width;
+  border: none;
   border-radius: 20%;
   transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
-	-moz-transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
-	-webkit-transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+  -moz-transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out;
+  -webkit-transition: color 0.25s ease-in-out,
+    background-color 0.25s ease-in-out;
 }
 
 .btn:hover {
@@ -68,18 +74,18 @@ p {
 }
 
 .btn:active {
-  @extend .btn:focus;
+  //@extend .btn:focus;
   transform: translatey(1px);
 }
 
-#session-length, #break-length {
+#session-length,
+#break-length {
   display: inline-block;
   min-width: $btn-width;
 }
 
-#start, .reset {
-  width: 100px;
+#start_stop,
+.reset {
+  width: 90px;
   border-radius: 10%;
 }
-
-
