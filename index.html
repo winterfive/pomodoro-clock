@@ -1,4 +1,4 @@
-<audio id="sound" preload="auto" src="https://www.dropbox.com/s/n02zv454m0pa5dl/Computer_Magic-Microsift-1901299923.mp3?dl=1" type="audio/mp3"></audio>
+<audio id="beep" preload="auto" src="https://www.dropbox.com/s/n02zv454m0pa5dl/Computer_Magic-Microsift-1901299923.mp3?dl=1"></audio>
 
 <div id="circleBg" class="text-center">
   <h1>Pomodoro Clock</h1>
@@ -7,18 +7,19 @@
     <a href="#" class="btn btn-primary" id="session-decrement">-</a>
     <p id="session-length">6</p>
     <a href="#" class="btn btn-primary" id="session-increment">+</a>
-    <a href="#" class="btn btn-primary reset">Reset</a>
+    <a href="#" id="reset" class="btn btn-primary reset">Reset</a>
   </div>
   <div id="breakDiv">
     <h2 id="break-label" class="title">Break Length</h2>
     <a href="#" class="btn btn-primary" id="break-decrement">-</a>
     <p id="break-length">5</p>
-    <button href="#" class="btn btn-primary" id="break-increment">+</button>
-    <a href="#" class="btn btn-primary reset">Reset</a>
+    <a href="#" class="btn btn-primary" id="break-increment">+</a>
+    <!--
+         <a href="#" id="reset" class="btn btn-primary reset">Reset</a>
+  -->
   </div>
   <div id="startDiv">
     <h2 id="timer-label">Session Time: <span id="time-left">00:00</span></h2>
-    <a href="#" class="btn btn-primary" id="start">Start</a>
+    <a href="#" id="start_stop" class="btn btn-primary">Start</a>
   </div>
-
 </div>
