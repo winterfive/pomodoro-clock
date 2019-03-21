@@ -4,64 +4,85 @@
 
 $(document).ready(function() {
   var beep = $("#beep")[0];
-  let sessCount = parseInt($("#session-length").html());
-  let breakCount = parseInt($("#break-length").html());
+  let sessCount = 0;
+  let breakCount = 0;
   let timeLeft = parseInt($("#time-left").html());
+  let isSessionRunning = false;
+  let isBreakRunning = false;
+  let startSession;
+  let startBreak;
 
   $("#start_stop").click(function() {
-    // TODO once clicked, second click doesn't start another countdown!!!
-    var startSession = setInterval(timer, 1000);
-    sessCount *= 60;
     
-    function timer() {
-      sessCount -= 1;      
+    console.log("isSessRun1: " + isSessionRunning);
 
-      if (sessCount === 0) {
+    if (!isSessionRunning) {
+      sessCount = parseInt($("#session-length").html()) * 60;
+      isSessionRunning = true;
+      
+      console.log("isSessRun2: " + isSessionRunning);
+      
+      startSession = setInterval( function() {runTimer(sessCount)}, 1000);
+    }    
+    
+    // HERE  runTimer repeats with count being the same value over and over    
+    function runTimer(count) {
+      count -= 1;
+      
+      console.log("count is: " + count);
+
+      if (count === 0) {
         beep.play();
-        clearInterval(startSession);        
-        var startBreak = setInterval(breakTimer, 1000);
-      };
-      
-      adjustTime(sessCount);  
-      
-      
-      function breakTimer() {
-        $("#timer-label").html("Break Time: <span id='time-left'></span>");
-        breakCount *= 60;
-        breakCount -= 1;  
-                
-        if (breakCount === 0) {
-          beep.play();
+        if (isSessionRunning) {
+          // stop session, start break
+          clearInterval(startSession);
+          breakCount = parseInt($("#break-length").html()) * 60;
+          $("#runTimer-label").html("BreakTime: <span id='time-left'></span>");
+          startBreak = setInterval( function() {runTimer(breakCount)}, 1000);
+          isSessionRunning = false;
+          isBreakRunning = true;
+        }
+
+        if (isBreakRunning) {
+          // stop break, start session
           clearInterval(startBreak);
-          $("#timer-label").html("Session Time: <span id='time-left'>00:00</span>");
-        }        
-        adjustTime(breakCount);
-      };    
-      
-      
-      function adjustTime(amount) {
-        if (amount < 600) {
-          // if less than 10 minutes
-          if (amount % 60 >= 10) {
-            // 10 seconds or more
-            $("#time-left").html("0" + Math.floor(amount/60) + ":" + amount%60);
-          } else {
-            // 9 seconds or less
-            $("#time-left").html("0" + Math.floor(amount/60) + ":" + "0" + amount%60);
-          }
-        } else {
-          // if more than 10 minutes
-          if (amount % 60 >= 10) {
-            $("#time-left").html(Math.floor(amount/60) + ":" + amount%60);
-          } else {
-            $("#time-left").html(Math.floor(amount/60) + ":" + "0" + amount%60);
-          }
-        } 
+          sessCount = parseInt($("#session-length").html()) * 60;
+          $("#runTimer-label").html("Session Time: <span id='time-left'></span>");
+          startSession = setInterval( function() {runTimer(sessCount)}, 1000);
+          isSessionRunning = true;
+          isBreakRunning = false;
+        }
+
+        displayCountdown(count);        
       }
     }
-  });  
-  
-  
+    
+    
+    function displayCountdown(amount) {
+          
+      console.log("got to here, amount is: " + amount);
+      
+
+      if (amount < 600) {
+        // if less than 10 minutes
+        if (amount % 60 >= 10) {
+          // 10 seconds or more
+          $("#time-left").html("0" + Math.floor(amount / 60) + ":" + amount % 60);
+        } else {
+          // 9 seconds or less
+          $("#time-left").html("0" + Math.floor(amount / 60) + ":" + "0" + amount % 60);
+        }
+      } else {
+        // if more than 10 minutes
+        if (amount % 60 >= 10) {
+          $("#time-left").html(Math.floor(amount / 60) + ":" + amount % 60);
+        } else {
+          $("#time-left").html(Math.floor(amount / 60) + ":" + "0" + amount % 60);
+        }
+      }
+    }
+  });
+
   // Session Buttons
   $("#session-decrement").click(function() {
     // min session is 1 minute
@@ -95,13 +116,13 @@ $(document).ready(function() {
       $("#break-length").html(breakCount);
     }
   });
-  
+
   // Reset buttons
-  $(".reset").click(function(){
+  $(".reset").click(function() {
     // After FCC test, change so each reset button affects only its target:session, break
     sessCount = 1;
     breakCount = 1;
     $("#session-length").html(sessCount);
-    $("#break-length").html(breakCount);    
-  });  
+    $("#break-length").html(breakCount);
+  });
 });
