@@ -63,14 +63,15 @@ $(document).ready(function() {
   
   // Session Buttons
   $("#session-decrement").click(function() {
-    // work session should be longer then a break
-    if (sessCount > 0 && sessCount - 1 > breakCount) {
+    // min session is 1 minute
+    if (sessCount - 1 > 0) {
       sessCount -= 1;
       $("#session-length").html(sessCount);
     }
   });
 
   $("#session-increment").click(function() {
+    // max session is 59 minutes
     if (sessCount + 1 < 60) {
       sessCount += 1;
       $("#session-length").html(sessCount);
@@ -79,15 +80,16 @@ $(document).ready(function() {
 
   // Break Buttons
   $("#break-decrement").click(function() {
-    if (breakCount > 1) {
+    // min break is 1 minute
+    if (breakCount - 1 > 0) {
       breakCount -= 1;
       $("#break-length").html(breakCount);
     }
   });
 
   $("#break-increment").click(function() {
-    // a break shouldn't take longer then the work session
-    if (breakCount + 1 < sessCount && breakCount + 1 < 60) {
+    // max break is 59 minutes
+    if (breakCount + 1 < 60) {
       breakCount += 1;
       $("#break-length").html(breakCount);
     }
@@ -102,3 +104,5 @@ $(document).ready(function() {
     $("#break-length").html(breakCount);    
   });  
 });
+
+/* blah */
