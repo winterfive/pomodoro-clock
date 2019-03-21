@@ -6,7 +6,7 @@ $(document).ready(function() {
   var sound = $("#sound")[0];
   var sessCount = parseInt($("#session-length").html());
   var breakCount = parseInt($("#break-length").html());
-  var countdown = parseInt($("#countdown").html());
+  var timeLeft = parseInt($("#time-left").html());
 
   $("#start").click(function() {
     var startSession = setInterval(timer, 1000);
@@ -19,16 +19,17 @@ $(document).ready(function() {
         clearInterval(startSession);        
         var startBreak = setInterval(breakTimer, 1000);
       }
-      $("#countdown").html(sessCount);
+      $("#time-left").html(sessCount);
 
       function breakTimer() {
-        $("#timer-label").html("Break Time: ");
+        $("#timer-label").html("Break Time: <span id='time-left'></span>");
         breakCount -= 1;
         
         if (breakCount === 0) {
+          sound.play();
           clearInterval(startBreak);
         }
-        $("#countdown").html(breakCount);
+        $("#time-left").html(breakCount);
       }
     }
   });
@@ -64,4 +65,11 @@ $(document).ready(function() {
       $("#break-length").html(breakCount);
     }
   });
+  
+  // Reset buttons
+  $(".reset").click(function(){
+    
+    
+  })
+  
 });
