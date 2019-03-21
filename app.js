@@ -3,20 +3,21 @@
 // March 2019
 
 $(document).ready(function() {
-  var sound = $("#sound")[0];
+  var beep = $("#beep")[0];
   let sessCount = parseInt($("#session-length").html());
   let breakCount = parseInt($("#break-length").html());
   let timeLeft = parseInt($("#time-left").html());
 
-  $("#start").click(function() {
+  $("#start_stop").click(function() {
     // TODO once clicked, second click doesn't start another countdown!!!
     var startSession = setInterval(timer, 1000);
     sessCount *= 60;
+    
     function timer() {
       sessCount -= 1;      
 
       if (sessCount === 0) {
-        sound.play();
+        beep.play();
         clearInterval(startSession);        
         var startBreak = setInterval(breakTimer, 1000);
       };
@@ -30,18 +31,18 @@ $(document).ready(function() {
         breakCount -= 1;  
                 
         if (breakCount === 0) {
-          sound.play();
+          beep.play();
           clearInterval(startBreak);
           $("#timer-label").html("Session Time: <span id='time-left'>00:00</span>");
         }        
         adjustTime(breakCount);
-      };     
+      };    
       
       
       function adjustTime(amount) {
-        if(amount < 600) {
+        if (amount < 600) {
           // if less than 10 minutes
-          if(amount % 60 >= 10) {
+          if (amount % 60 >= 10) {
             // 10 seconds or more
             $("#time-left").html("0" + Math.floor(amount/60) + ":" + amount%60);
           } else {
@@ -50,7 +51,7 @@ $(document).ready(function() {
           }
         } else {
           // if more than 10 minutes
-          if(amount % 60 >= 10) {
+          if (amount % 60 >= 10) {
             $("#time-left").html(Math.floor(amount/60) + ":" + amount%60);
           } else {
             $("#time-left").html(Math.floor(amount/60) + ":" + "0" + amount%60);
@@ -98,11 +99,9 @@ $(document).ready(function() {
   // Reset buttons
   $(".reset").click(function(){
     // After FCC test, change so each reset button affects only its target:session, break
-    sessCount = 25;
-    breakCount = 5;
+    sessCount = 1;
+    breakCount = 1;
     $("#session-length").html(sessCount);
     $("#break-length").html(breakCount);    
   });  
 });
-
-/* blah */
