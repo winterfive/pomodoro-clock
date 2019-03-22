@@ -57,7 +57,7 @@ $(document).ready(function() {
           clearInterval(startSession);
           sessCount = parseInt($("#session-length").html()) * 60;
           breakCount = parseInt($("#break-length").html()) * 60;
-          $("#runTimer-label").html("BreakTime: <span id='time-left'></span>");
+          $("#timer-label").html("BreakTime: <span id='time-left'></span>");
           startBreak = setInterval( function() { runTimer(); }, 1000);
           console.log("got beyound startBreak");
           isSessionRunning = false;
@@ -67,7 +67,7 @@ $(document).ready(function() {
           clearInterval(startBreak);
           sessCount = parseInt($("#session-length").html()) * 60;
           breakCount = parseInt($("#break-length").html()) * 60;
-          $("#runTimer-label").html("Session Time: <span id='time-left'></span>");
+          $("#timer-label").html("Session Time: <span id='time-left'></span>");
           startSession = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = true;
           isBreakRunning = false;
