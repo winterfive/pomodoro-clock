@@ -12,6 +12,7 @@ $(document).ready(function() {
   let isPaused = false;
   let startSession;
   let startBreak;
+  
 
   $("#start_stop").click(function() {
     
@@ -20,7 +21,7 @@ $(document).ready(function() {
     console.log("isPaused: " + isPaused);
     
     // pause button
-    if(!isPaused && isSessionRunning || isBreakRunning) {
+    if(!isPaused && isSessionRunning || !isPaused && isBreakRunning) {
       isPaused = true;
       if (isSessionRunning) {
         clearInterval(startSession);
@@ -36,7 +37,7 @@ $(document).ready(function() {
     console.log("isBreakRunning2: " + isBreakRunning);
     console.log("isPaused2: " + isPaused);
     
-    // start button
+    // restarting session or break
     if (isPaused) {
       console.log("got to isPaused3");
       if (isSessionRunning) {
@@ -99,7 +100,7 @@ $(document).ready(function() {
     function displayCountdown(amount) {
       if (amount < 600) {
         // if less than 10 minutes
-        if (amount % 60 >= 10) {
+        if (amount % 60 > 9) {
           // 10 seconds or more
           $("#time-left").html("0" + Math.floor(amount / 60) + ":" + amount % 60);
         } else {
@@ -108,9 +109,11 @@ $(document).ready(function() {
         }
       } else {
         // if more than 10 minutes
-        if (amount % 60 >= 10) {
+        if (amount % 60 > 9) {
+          // 10 seconds or more
           $("#time-left").html(Math.floor(amount / 60) + ":" + amount % 60);
         } else {
+          // 9 seconds or less
           $("#time-left").html(Math.floor(amount / 60) + ":" + "0" + amount % 60);
         }
       }
@@ -161,6 +164,6 @@ $(document).ready(function() {
     isPaused = false;
     $("#session-length").html(sessCount);
     $("#break-length").html(breakCount);
-    $("#timer-label").html("Session Time: <span id='time-left'> 00:00</span>");
+    $("#timer-label").html("Session Time: <span id='time-left'>00:00</span>");
   });
 });
