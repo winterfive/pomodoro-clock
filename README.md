@@ -1,3 +1,3 @@
 ## pomodoro-clock
 
-A kitchen timer clock made using JavaScript, jQuery, HTML5, and SCSS.
+A timer clock app made using JavaScript, jQuery, HTML5, and SCSS.
