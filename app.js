@@ -9,41 +9,56 @@ $(document).ready(function() {
   let timeLeft = parseInt($("#time-left").html());
   let isSessionRunning = false;
   let isBreakRunning = false;
+  let isPaused = false;
   let startSession;
   let startBreak;
 
   $("#start_stop").click(function() {
     
-    // stop button
-    if(isSessionRunning || isBreakRunning) {
-      if(isSessionRunning) {
-        clearInterval(startSession);
-        isSessionRunning = false;
-        return;
-      }
+    console.log("isSessionRunning: " + isSessionRunning);
+    console.log("isBreakRunning: " + isBreakRunning);
     
-      if(isBreakRunning) {
+    // pause button
+    if (isSessionRunning || isBreakRunning) {
+      isPaused = true;
+      if (isSessionRunning) {
+        clearInterval(startSession);
+        return;
+      }    
+      if (isBreakRunning) {
         clearInterval(startBreak);
-        isBreakRunning = false;
         return;
       }     
-    }
-    
+    }    
     
     // start button
-    if (!isSessionRunning) {
+    if (isPaused) {
+      if (isSessionRunning) {
+        //restart session
+        startSession = setInterval( function() { runTimer(); }, 1000);
+      }
+      
+      if (isBreakRunning) {
+        //restart break
+        startBreak = setInterval( function() { runTimer(); }, 1000);
+      }
+      isPaused = false;
+    }
+    
+    // Starting a new session
+    if (!isSessionRunning && !isBreakRunning) {
       sessCount = parseInt($("#session-length").html()) * 60;
       isSessionRunning = true;      
       startSession = setInterval( function() { runTimer(); }, 1000);
     }
      
     function runTimer() {
-      if(isSessionRunning) {
+      if (isSessionRunning) {
         sessCount -= 1;
         displayCountdown(sessCount);
       }      
       
-      if(isBreakRunning) {
+      if (isBreakRunning) {
         breakCount -= 1;
         displayCountdown(breakCount);
       }      
@@ -141,5 +156,6 @@ $(document).ready(function() {
     breakCount = 1;
     $("#session-length").html(sessCount);
     $("#break-length").html(breakCount);
+    $("#timer-label").html("Session Time: <span id='time-left'> 00:00</span>");
   });
 });
