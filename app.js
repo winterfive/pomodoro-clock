@@ -17,9 +17,10 @@ $(document).ready(function() {
     
     console.log("isSessionRunning: " + isSessionRunning);
     console.log("isBreakRunning: " + isBreakRunning);
+    console.log("isPaused: " + isPaused);
     
     // pause button
-    if (isSessionRunning || isBreakRunning) {
+    if(!isPaused && isSessionRunning || isBreakRunning) {
       isPaused = true;
       if (isSessionRunning) {
         clearInterval(startSession);
@@ -28,11 +29,16 @@ $(document).ready(function() {
       if (isBreakRunning) {
         clearInterval(startBreak);
         return;
-      }     
-    }    
+      }
+    }
+    
+    console.log("isSessionRunning2: " + isSessionRunning);
+    console.log("isBreakRunning2: " + isBreakRunning);
+    console.log("isPaused2: " + isPaused);
     
     // start button
     if (isPaused) {
+      console.log("got to isPaused3");
       if (isSessionRunning) {
         //restart session
         startSession = setInterval( function() { runTimer(); }, 1000);
@@ -74,7 +80,6 @@ $(document).ready(function() {
           breakCount = parseInt($("#break-length").html()) * 60;
           $("#timer-label").html("Break Time: <span id='time-left'></span>");
           startBreak = setInterval( function() { runTimer(); }, 1000);
-          console.log("got beyound startBreak");
           isSessionRunning = false;
           isBreakRunning = true;
         } else {
@@ -91,10 +96,7 @@ $(document).ready(function() {
     }     
     
     
-    function displayCountdown(amount) { 
-      console.log("got to here, amount is: " + amount);
-      
-
+    function displayCountdown(amount) {
       if (amount < 600) {
         // if less than 10 minutes
         if (amount % 60 >= 10) {
@@ -154,6 +156,9 @@ $(document).ready(function() {
     // After FCC test, change so each reset button affects only its target:session, break
     sessCount = 1;
     breakCount = 1;
+    isSessionRunning = false;
+    isBreakRunning = false;
+    isPaused = false;
     $("#session-length").html(sessCount);
     $("#break-length").html(breakCount);
     $("#timer-label").html("Session Time: <span id='time-left'> 00:00</span>");
