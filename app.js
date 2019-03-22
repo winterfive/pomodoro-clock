@@ -19,11 +19,13 @@ $(document).ready(function() {
       if(isSessionRunning) {
         clearInterval(startSession);
         isSessionRunning = false;
+        return;
       }
     
       if(isBreakRunning) {
         clearInterval(startBreak);
         isBreakRunning = false;
+        return;
       }     
     }
     
@@ -46,14 +48,14 @@ $(document).ready(function() {
         displayCountdown(breakCount);
       }      
             
-      console.log("SessCount:" + sessCount + ", breakCount: " + breakCount);
+      console.log("SessCount: " + sessCount + ", breakCount: " + breakCount);
 
       if (sessCount === 0 || breakCount === 0) {
         beep.play();
         if (isSessionRunning) {
           // stop session, start break          
           clearInterval(startSession);
-          console.log("got to here: beyound clear Session");
+          sessCount = parseInt($("#session-length").html()) * 60;
           breakCount = parseInt($("#break-length").html()) * 60;
           $("#runTimer-label").html("BreakTime: <span id='time-left'></span>");
           startBreak = setInterval( function() { runTimer(); }, 1000);
@@ -64,6 +66,7 @@ $(document).ready(function() {
           // stop break, start session
           clearInterval(startBreak);
           sessCount = parseInt($("#session-length").html()) * 60;
+          breakCount = parseInt($("#break-length").html()) * 60;
           $("#runTimer-label").html("Session Time: <span id='time-left'></span>");
           startSession = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = true;
