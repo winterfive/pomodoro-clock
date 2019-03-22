@@ -14,25 +14,36 @@ $(document).ready(function() {
 
   $("#start_stop").click(function() {
     
-    console.log("isSessRun1: " + isSessionRunning);
-
-    if (!isSessionRunning) {
-      sessCount = parseInt($("#session-length").html()) * 60;
-      isSessionRunning = true;
-      
-      console.log("isSessRun2: " + isSessionRunning);
-      
-      startSession = setInterval( function() { runTimer(); }, 1000);
+    // stop button
+    if(isSessionRunning || isBreakRunning) {
+      if(isSessionRunning) {
+        clearInterval(startSession);
+        isSessionRunning = false;
+      }
+    
+      if(isBreakRunning) {
+        clearInterval(startBreak);
+        isBreakRunning = false;
+      }     
     }
     
-    // HERE  runTimer repeats with count being the same value over and over    
+    
+    // start button
+    if (!isSessionRunning) {
+      sessCount = parseInt($("#session-length").html()) * 60;
+      isSessionRunning = true;      
+      startSession = setInterval( function() { runTimer(); }, 1000);
+    }
+     
     function runTimer() {
       if(isSessionRunning) {
         sessCount -= 1;
+        displayCountdown(sessCount);
       }      
       
       if(isBreakRunning) {
         breakCount -= 1;
+        displayCountdown(breakCount);
       }      
             
       console.log("SessCount:" + sessCount + ", breakCount: " + breakCount);
@@ -40,16 +51,16 @@ $(document).ready(function() {
       if (sessCount === 0 || breakCount === 0) {
         beep.play();
         if (isSessionRunning) {
-          // stop session, start break
+          // stop session, start break          
           clearInterval(startSession);
+          console.log("got to here: beyound clear Session");
           breakCount = parseInt($("#break-length").html()) * 60;
           $("#runTimer-label").html("BreakTime: <span id='time-left'></span>");
           startBreak = setInterval( function() { runTimer(); }, 1000);
+          console.log("got beyound startBreak");
           isSessionRunning = false;
           isBreakRunning = true;
-        }
-
-        if (isBreakRunning) {
+        } else {
           // stop break, start session
           clearInterval(startBreak);
           sessCount = parseInt($("#session-length").html()) * 60;
@@ -57,23 +68,12 @@ $(document).ready(function() {
           startSession = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = true;
           isBreakRunning = false;
-        }
-
-        displayCountdown();        
+        }                
       }
-    }    
+    }     
     
     
-    function displayCountdown() {
-      
-      if(isSessionRunning) {
-        amount = sessCount;
-      }
-      
-      if(isBreakRunning) {
-        amount = breakCount;
-      }
-          
+    function displayCountdown(amount) { 
       console.log("got to here, amount is: " + amount);
       
 
