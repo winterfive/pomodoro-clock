@@ -22,23 +22,29 @@ $(document).ready(function() {
       
       console.log("isSessRun2: " + isSessionRunning);
       
-      startSession = setInterval( function() {runTimer(sessCount)}, 1000);
-    }    
+      startSession = setInterval( function() { runTimer(); }, 1000);
+    }
     
     // HERE  runTimer repeats with count being the same value over and over    
-    function runTimer(count) {
-      count -= 1;
+    function runTimer() {
+      if(isSessionRunning) {
+        sessCount -= 1;
+      }      
       
-      console.log("count is: " + count);
+      if(isBreakRunning) {
+        breakCount -= 1;
+      }      
+            
+      console.log("SessCount:" + sessCount + ", breakCount: " + breakCount);
 
-      if (count === 0) {
+      if (sessCount === 0 || breakCount === 0) {
         beep.play();
         if (isSessionRunning) {
           // stop session, start break
           clearInterval(startSession);
           breakCount = parseInt($("#break-length").html()) * 60;
           $("#runTimer-label").html("BreakTime: <span id='time-left'></span>");
-          startBreak = setInterval( function() {runTimer(breakCount)}, 1000);
+          startBreak = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = false;
           isBreakRunning = true;
         }
@@ -48,17 +54,25 @@ $(document).ready(function() {
           clearInterval(startBreak);
           sessCount = parseInt($("#session-length").html()) * 60;
           $("#runTimer-label").html("Session Time: <span id='time-left'></span>");
-          startSession = setInterval( function() {runTimer(sessCount)}, 1000);
+          startSession = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = true;
           isBreakRunning = false;
         }
 
-        displayCountdown(count);        
+        displayCountdown();        
       }
-    }
+    }    
     
     
-    function displayCountdown(amount) {
+    function displayCountdown() {
+      
+      if(isSessionRunning) {
+        amount = sessCount;
+      }
+      
+      if(isBreakRunning) {
+        amount = breakCount;
+      }
           
       console.log("got to here, amount is: " + amount);
       
