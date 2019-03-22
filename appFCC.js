@@ -47,8 +47,12 @@ $(document).ready(function() {
     }    
     
     // Starting a new session
-    if (!isSessionRunning && !isBreakRunning) {      
-      sessCount = parseInt($("#session-length").html()) * 60;
+    if (!isSessionRunning && !isBreakRunning) {
+      // display initial time of session
+      let x = parseInt($("#session-length").html());
+      $("#time-left").html(x + ":00");
+      
+      sessCount = x * 60;
       isSessionRunning = true;      
       startSession = setInterval( function() { runTimer(); }, 1000);
       $("#start-pause").html("Pause");
