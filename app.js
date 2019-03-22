@@ -39,7 +39,6 @@ $(document).ready(function() {
     
     // restarting session or break
     if (isPaused) {
-      console.log("got to isPaused3");
       if (isSessionRunning) {
         //restart session
         startSession = setInterval( function() { runTimer(); }, 1000);
@@ -50,6 +49,7 @@ $(document).ready(function() {
         startBreak = setInterval( function() { runTimer(); }, 1000);
       }
       isPaused = false;
+      $("#start-pause").html("Start");
     }
     
     // Starting a new session
@@ -57,6 +57,7 @@ $(document).ready(function() {
       sessCount = parseInt($("#session-length").html()) * 60;
       isSessionRunning = true;      
       startSession = setInterval( function() { runTimer(); }, 1000);
+      $("#start-pause").html("Pause");
     }
      
     function runTimer() {
@@ -131,7 +132,7 @@ $(document).ready(function() {
 
   $("#session-increment").click(function() {
     // max session is 59 minutes
-    if (sessCount + 1 < 60) {
+    if (sessCount + 1 < 61) {
       sessCount += 1;
       $("#session-length").html(sessCount);
     }
@@ -148,7 +149,7 @@ $(document).ready(function() {
 
   $("#break-increment").click(function() {
     // max break is 59 minutes
-    if (breakCount + 1 < 60) {
+    if (breakCount + 1 < 61) {
       breakCount += 1;
       $("#break-length").html(breakCount);
     }
@@ -157,13 +158,14 @@ $(document).ready(function() {
   // Reset buttons
   $(".reset").click(function() {
     // After FCC test, change so each reset button affects only its target:session, break
-    sessCount = 1;
-    breakCount = 1;
+    sessCount = 25;
+    breakCount = 5;
     isSessionRunning = false;
     isBreakRunning = false;
     isPaused = false;
     $("#session-length").html(sessCount);
     $("#break-length").html(breakCount);
     $("#timer-label").html("Session Time: <span id='time-left'>00:00</span>");
+    $("#start-pause").html("Start");
   });
 });
