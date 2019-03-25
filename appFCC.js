@@ -4,8 +4,8 @@
 
 $(document).ready(function() {
   var beep = $("#beep")[0];
-  let sessCount = 0;
-  let breakCount = 0;
+  let sessCount = 25;
+  let breakCount = 5;
   let timeLeft = parseInt($("#time-left").html());
   let isSessionRunning = false;
   let isBreakRunning = false;
@@ -16,13 +16,11 @@ $(document).ready(function() {
 
   $("#start_stop").click(function() {
     
-    console.log("isSessionRunning: " + isSessionRunning);
-    console.log("isBreakRunning: " + isBreakRunning);
-    console.log("isPaused: " + isPaused);
-    
     // pause button
     if(!isPaused && isSessionRunning || !isPaused && isBreakRunning) {
       isPaused = true;
+      $("#start-pause").html("Start");
+      
       if (isSessionRunning) {
         clearInterval(startSession);
         return;
@@ -32,10 +30,6 @@ $(document).ready(function() {
         return;
       }
     }
-    
-    console.log("isSessionRunning2: " + isSessionRunning);
-    console.log("isBreakRunning2: " + isBreakRunning);
-    console.log("isPaused2: " + isPaused);
     
     // restarting session or break
     if (isPaused) {
@@ -50,11 +44,15 @@ $(document).ready(function() {
       }
       isPaused = false;
       $("#start-pause").html("Start");
-    }
+    }    
     
     // Starting a new session
     if (!isSessionRunning && !isBreakRunning) {
-      sessCount = parseInt($("#session-length").html()) * 60;
+      // display initial time of session
+      let x = parseInt($("#session-length").html());
+      $("#time-left").html(x + ":00");
+      
+      sessCount = x * 60;
       isSessionRunning = true;      
       startSession = setInterval( function() { runTimer(); }, 1000);
       $("#start-pause").html("Pause");
@@ -76,17 +74,17 @@ $(document).ready(function() {
       if (sessCount === 0 || breakCount === 0) {
         beep.play();
         if (isSessionRunning) {
-          // stop session, start break          
-          clearInterval(startSession);
+          // stop session, start break
+          clearInterval(startSession);          
           sessCount = parseInt($("#session-length").html()) * 60;
           breakCount = parseInt($("#break-length").html()) * 60;
-          $("#timer-label").html("Break Time: <span id='time-left'></span>");
+          $("#timer-label").html("Break Time: <span id='time-left'></span>");          
           startBreak = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = false;
           isBreakRunning = true;
-        } else {
+          } else {
           // stop break, start session
-          clearInterval(startBreak);
+          clearInterval(startBreak);          
           sessCount = parseInt($("#session-length").html()) * 60;
           breakCount = parseInt($("#break-length").html()) * 60;
           $("#timer-label").html("Session Time: <span id='time-left'></span>");
@@ -125,17 +123,17 @@ $(document).ready(function() {
   $("#session-decrement").click(function() {
     // min session is 1 minute
     if (sessCount - 1 > 0) {
-      sessCount -= 1;
-      $("#session-length").html(sessCount);
+      sessCount -= 1;      
     }
+    $("#session-length").html(sessCount);
   });
 
   $("#session-increment").click(function() {
     // max session is 59 minutes
     if (sessCount + 1 < 61) {
       sessCount += 1;
-      $("#session-length").html(sessCount);
     }
+    $("#session-length").html(sessCount);
   });
 
   // Break Buttons
@@ -143,16 +141,16 @@ $(document).ready(function() {
     // min break is 1 minute
     if (breakCount - 1 > 0) {
       breakCount -= 1;
-      $("#break-length").html(breakCount);
     }
+    $("#break-length").html(breakCount);
   });
 
   $("#break-increment").click(function() {
     // max break is 59 minutes
     if (breakCount + 1 < 61) {
-      breakCount += 1;
-      $("#break-length").html(breakCount);
+      breakCount += 1;      
     }
+    $("#break-length").html(breakCount);
   });
 
   // Reset buttons
@@ -167,5 +165,6 @@ $(document).ready(function() {
     $("#break-length").html(breakCount);
     $("#timer-label").html("Session Time: <span id='time-left'>00:00</span>");
     $("#start-pause").html("Start");
+    beep.load();
   });
 });
