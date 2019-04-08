@@ -2,6 +2,10 @@
 // Lee Gainer
 // March 2019
 
+// Not complete as yet
+// TODO Break timer display is incorrect
+// TODO Session timer immediately initiates to break timer
+
 $(document).ready(function() {
   var beep = $("#beep")[0];
   let sessCount = 25;
@@ -12,13 +16,14 @@ $(document).ready(function() {
   let isPaused = false;
   let startSession;
   let startBreak;
+  let sessionLength = 0;
+  let breakLength = 0;
   
 
   $("#start_stop").click(function() {
     
     // pause button
-    if(!isPaused && isSessionRunning || !isPaused && isBreakRunning) {
-      isPaused = true;
+    if(!isPaused) {      
       $("#start-pause").html("Start");
       
       if (isSessionRunning) {
@@ -29,6 +34,7 @@ $(document).ready(function() {
         clearInterval(startBreak);
         return;
       }
+      isPaused = true;
     }
     
     // restarting session or break
@@ -52,7 +58,7 @@ $(document).ready(function() {
       let x = parseInt($("#session-length").html());
       $("#time-left").html(x + ":00");
       
-      sessCount = x * 60;
+      sessionLength = x * 60;
       isSessionRunning = true;      
       startSession = setInterval( function() { runTimer(); }, 1000);
       $("#start-pause").html("Pause");
@@ -60,32 +66,40 @@ $(document).ready(function() {
      
     function runTimer() {
       if (isSessionRunning) {
-        sessCount -= 1;
-        displayCountdown(sessCount);
+        sessionLength -= 1;
+        displayCountdown(sessionLength);
       }      
       
       if (isBreakRunning) {
-        breakCount -= 1;
-        displayCountdown(breakCount);
-      }      
-            
-      console.log("SessCount: " + sessCount + ", breakCount: " + breakCount);
+        breakLength -= 1;
+        displayCountdown(breakLength);
+      }
 
-      if (sessCount === 0 || breakCount === 0) {
+      if (sessionLength === 0 || breakLength === 0) {
         beep.play();
         if (isSessionRunning) {
           // stop session, start break
-          clearInterval(startSession);          
+          clearInterval(startSession);
+          
+          //display initial break length
+          let y = parseInt($("#break-length").html());
+          $("#time-left").html(y + ":00");
+          
           sessCount = parseInt($("#session-length").html()) * 60;
-          breakCount = parseInt($("#break-length").html()) * 60;
+          breakCount = y * 60;
           $("#timer-label").html("Break Time: <span id='time-left'></span>");          
           startBreak = setInterval( function() { runTimer(); }, 1000);
           isSessionRunning = false;
           isBreakRunning = true;
           } else {
           // stop break, start session
-          clearInterval(startBreak);          
-          sessCount = parseInt($("#session-length").html()) * 60;
+          clearInterval(startBreak);
+            
+          // display initial time of session
+          let z = parseInt($("#session-length").html());
+          $("#time-left").html(z + ":00");
+            
+          sessCount = z * 60;
           breakCount = parseInt($("#break-length").html()) * 60;
           $("#timer-label").html("Session Time: <span id='time-left'></span>");
           startSession = setInterval( function() { runTimer(); }, 1000);
@@ -155,9 +169,14 @@ $(document).ready(function() {
 
   // Reset buttons
   $(".reset").click(function() {
-    // After FCC test, change so each reset button affects only its target:session, break
     sessCount = 25;
     breakCount = 5;
+    if(isSessionRunning) {
+      clearInterval(startSession);
+    }
+    if(isBreakRunning) {
+      clearInterval(startBreak);
+    }
     isSessionRunning = false;
     isBreakRunning = false;
     isPaused = false;
